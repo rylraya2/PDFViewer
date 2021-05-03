@@ -37,7 +37,7 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
   dragged: any;
   arrConfImages: any;
 
-  constructor(private renderer2: Renderer2,private documentslist:  DocumentsService,) {}
+  constructor(private renderer2: Renderer2) {}
   ngOnInit() {
     this.pdfjsLib = window['pdfjs-dist/build/pdf'];
     //this.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.worker.js';
@@ -58,9 +58,7 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
     this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
   }
   ngOnChanges(changes: SimpleChanges){
-    console.log("Cambio-->",changes);
       if(changes.url != null ){
-        console.log("Cargar nuevo pdf");
         this.loadPDF(changes.url.currentValue);
       }
 
@@ -111,7 +109,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
 
     this.renderer2.appendChild(divPage,img);
     this.arrConfImages.push({image: img, page: this.numPage, imageBase64: this.signature});
-    console.log("Firmas-->",this.arrConfImages);
   }
   openList(){
     if (this.listSignatures.nativeElement.classList.contains('open')) {
@@ -137,16 +134,13 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
   }
   //Funcionalidad drag and drop para firma
   start(e) {
-    console.log("Start-->",e);
     this.dragged = e.target;
-    console.log("Start dragged-->",e.target);
     e.dataTransfer.effectAllowed = 'move'; // Define el efecto como mover
     e.dataTransfer.setData("text", e.target.id); // Coje el elemento que se va a mover
     e.dataTransfer.setDragImage(e.target, 0, 0); // Define la imagen que se vera al ser arrastrado el elemento y por donde se coje el elemento que se va a mover (el raton aparece en la esquina sup_izq con 0,0)
     e.target.style.opacity = '0.5'; // Establece la opacidad del elemento que se va arrastrar
   }
   end(e) {
-    console.log("End-->",e);
     this.dragged.style.position = "absolute";
     //calcular position
     let top = parseInt(this.dragged.offsetTop);
@@ -159,7 +153,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
   }
   startTouch(e) {
     e.preventDefault();
-    console.log("Start Touch-->",e);
     this.dragged = e.target;
     //e.dataTransfer.effecAllowed = 'move'; // Define el efecto como mover
     // Define la imagen que se vera al ser arrastrado el elemento y por donde se coje el elemento que se va a mover (el raton aparece en la esquina sup_izq con 0,0)
@@ -167,7 +160,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
   }
   endTouch(e) {
     e.preventDefault();
-    console.log("End Touch-->",e);
     this.dragged.style.position = "absolute";
     
     //calcular position
@@ -183,13 +175,10 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
       return true;
     }
     e.preventDefault();
-    console.log("touch move-->",e);
     this.dragged.style.position = "absolute";
     //calcular position
     let top =  (e.changedTouches[0].clientY - this.dragged.clientHeight/2)+60;
     let left = (e.changedTouches[0].clientX - this.dragged.clientWidth/2);
-    console.log("TOP-->",top);
-    console.log("left-->",left);
     this.dragged.style.top =  top+"px";
     this.dragged.style.left = left+"px";
     this.dragged.style.opacity = '0.5';
@@ -198,15 +187,12 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
     this.dragged = null;
   }
   enter(e) {
-    console.log("Enter-->",e);
     e.target.style.border = '1px dotted #555';
   }
   leave(e) {
-    console.log("Leave-->",e);
     e.target.style.border = '';
   }
   over(e) {
-    console.log("Over-->",e);
     this.dragged.style.position = "absolute";
     //calcular position
     let top = parseInt(this.dragged.offsetTop);
@@ -216,7 +202,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
     return true;
   }
   clonar(e) {
-    console.log("clonar-->",e);
     var elementoArrastrado = this.dragged;
     elementoArrastrado.style.opacity = ''; // Dejamos la opacidad a su estado anterior para copiar el elemento igual que era antes
     var movecarclone = elementoArrastrado.cloneNode(true); // Se clona el elemento
@@ -300,7 +285,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
     }
   }
   scrolling(e){
-    console.log("Scroll-->",e);
     let scrollTop = this.viewContainer.nativeElement.scrollTop
     let distanciaMenor = 999999999;
     for(let div of  e.srcElement.children[0].children){
@@ -322,7 +306,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
   }
   //renderer page
   renderPage(pdf, numPage) {
-    console.log("Renderer page -->",numPage);
     const pvc = this;
     const i = numPage -1;
     const elementHTML = pvc.arrHTML[i];
@@ -349,7 +332,6 @@ export class PDFViewerComponent implements OnInit, AfterViewInit, OnChanges{
 
             // Wait for rendering to finish
             renderTask.promise.then(function() {
-              console.log("Renderer page success-->",numPage);
               pvc.renderer2.setAttribute(divPage,'data-loaded','true')
               pvc.arrHTML[i].dataLoaded = true;
             });
