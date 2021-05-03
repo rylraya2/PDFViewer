@@ -1,0 +1,69 @@
+@import url('../../assets/viewerWeb/viewer.css');
+#pdfviewer-capture-signature{
+    width:100%;
+    height:700px;
+    background-color: rgb(73, 73, 73);
+}
+#pdfviewer-capture-signature .signature {
+    width: 500px;
+    margin:0px auto;
+    position: relative;
+    top:20px;
+}
+#pdfviewer-capture-signature .signature canvas{
+    background-color: white;
+}
+.list-signature-image{
+    width:162px;
+    background-color: rgba(215, 215, 219, 1);
+    height:28px;
+    overflow: hidden;
+    margin:0 -120px;
+    padding:0 10px 0 0;
+    top: 2px;
+    border: 1px solid black;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.list-signature-image.selectable::after{
+    background-color: rgba(255,255,255,1);
+    background-image: url(../../assets/viewerWeb/images/toolbarButton-menuArrow.svg);
+    background-repeat: no-repeat;
+    background-position: 85px;
+}
+.list-signature-image.open{
+    overflow: inherit;
+}
+.list-signature-image,
+ul.signature-image,
+ul.signature-image > li > img{
+    display:block;
+    width: 162px;
+    height: 27px;
+    margin:0;
+    padding:0;
+}
+ul.signature-image > li{
+    list-style: none;
+    background-color:  rgba(255,255,255,1);
+    cursor: pointer;
+    display:none;
+}
+.list-signature-image.open > ul.signature-image > li,
+ul.signature-image > li.select{
+    display: block;
+}
+ul.signature-image > li:hover{
+    background-color: rgb(156, 156, 156);
+}
+.pdfViewer .page > .canvasWrapper >img{
+    display: block;
+    position: absolute;
+    width:300px;
+    height:100px;
+    top:0;
+    left:0;
+    border: 3px dotted rgb(85, 85, 85);
+    resize: both;
+    cursor: pointer;
+}
